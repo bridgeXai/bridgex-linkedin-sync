@@ -4,7 +4,7 @@
 > **同事安装请直接看 → [`安装指南.md`](./安装指南.md)**（保姆级步骤）。  
 > 日常速查 → [`使用说明-快速参考.md`](./使用说明-快速参考.md)。
 
-**代码仓库（公开，唯一分发渠道）**：https://github.com/BridgeX-ai/bridgex-linkedin-sync
+**代码仓库（公开，唯一分发渠道）**：https://github.com/bridgeXai/bridgex-linkedin-sync
 
 > **分发策略（2026-05-26 起）**  
 > - ✅ 同事自行从 GitHub 获取代码（`git clone` 或网页 Download ZIP）  
@@ -78,7 +78,7 @@ git push origin v0.1.2
 
 ## 三、Git 仓库
 
-**仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（Public）
+**仓库**：https://github.com/bridgeXai/bridgex-linkedin-sync（Public）
 
 新同事安装见 [`安装指南.md`](./安装指南.md) §三。
 
@@ -92,7 +92,7 @@ git push origin v0.1.2
 
 **BridgeX LinkedIn Sync 已更新**
 
-仓库：https://github.com/BridgeX-ai/bridgex-linkedin-sync
+仓库：https://github.com/bridgeXai/bridgex-linkedin-sync
 
 **会 Git 的同事**
 
