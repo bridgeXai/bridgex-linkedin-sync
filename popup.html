@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LinkedIn Sync</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="popup">
+      <header class="header">
+        <h1>同步到飞书</h1>
+        <a href="#" id="open-settings" class="settings-link" title="打开设置">设置</a>
+      </header>
+
+      <section class="profile">
+        <label class="field">
+          <span>姓名</span>
+          <input id="name-input" type="text" placeholder="从页面标题提取" />
+        </label>
+        <label class="field">
+          <span>职位头衔</span>
+          <input id="title-input" type="text" placeholder="首屏提取" />
+        </label>
+        <label class="field">
+          <span>当前公司</span>
+          <input id="company-input" type="text" placeholder="首屏提取" />
+        </label>
+        <label class="field">
+          <span>地区</span>
+          <input id="region-input" type="text" placeholder="首屏提取，如 Japan Tokyo" />
+        </label>
+        <label class="field">
+          <span>LinkedIn 链接</span>
+          <input id="url-input" type="url" placeholder="https://www.linkedin.com/in/..." />
+        </label>
+        <label class="field">
+          <div class="field-header">
+            <span>联系方式（邮箱 / 电话）</span>
+            <button type="button" id="contact-read-btn" class="ai-btn" title="请先手动打开「联系方式」弹窗，再点此截屏识别">📇 截屏识别联系方式</button>
+          </div>
+          <input id="contact-email-input" type="email" placeholder="邮箱，如 name@company.com" />
+          <input id="contact-phone-input" type="tel" placeholder="电话，如 +81-90-1234-5678" class="contact-phone-input" />
+        </label>
+        <label class="field">
+          <div class="field-header">
+            <span>履历素材（支持右键/图片/文本）</span>
+            <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+              <button type="button" id="resume-capture-btn" class="ai-btn" title="滚动整页并优先截取 Experience、Education，再 AI 填入 career_background / edu_background">📸 履历整页截屏</button>
+            </div>
+          </div>
+          <textarea id="memo-input" rows="4" placeholder="推荐：点「履历整页截屏」。也可右键划选 / Ctrl+V 粘贴文本或图片（粘贴后自动 AI 解析）。"></textarea>
+          <div id="ai-extra-preview" class="ai-extra-preview" hidden></div>
+        </label>
+        <p id="page-hint" class="hint"></p>
+      </section>
+
+      <section class="message-section">
+        <label class="field">
+          <div class="field-header">
+            <span>发出的消息（连接附言 / 私信全文）</span>
+            <button type="button" id="message-ai-btn" class="ai-btn" title="AI 分类话术模板、痛点、CTA 等并写入表 C">✨ AI 分类</button>
+          </div>
+          <textarea id="message-input" rows="4" placeholder="粘贴你发给对方的消息全文；也可在聊天里划选后右键「保存为发出的消息」。点「AI 分类」可填入模板/痛点/CTA。"></textarea>
+          <div id="message-ai-preview" class="ai-extra-preview" hidden></div>
+        </label>
+      </section>
+
+      <section class="actions" id="action-buttons">
+        <button type="button" class="action-btn" data-action="已发申请">已发申请</button>
+        <button type="button" class="action-btn" data-action="已发消息">已发消息</button>
+        <button type="button" class="action-btn" data-action="已回复">已回复</button>
+        <button type="button" class="action-btn accent" data-action="连接已接受">连接已接受</button>
+        <button type="button" class="action-btn secondary" data-action="其他">其他</button>
+      </section>
+
+      <p class="log-link-row">
+        <a href="#" id="open-activity-log">查看解析/同步记录</a>
+      </p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </div>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

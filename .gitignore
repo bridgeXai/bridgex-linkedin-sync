@@ -1,0 +1,4 @@
+.DS_Store
+Thumbs.db
+*.local.json
+lib/secrets.js

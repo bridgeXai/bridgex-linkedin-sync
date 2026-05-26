@@ -1,0 +1,16 @@
+{
+  "name": "bridgex-linkedin-sync",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "BridgeX LinkedIn reach out Chrome extension + Feishu rollup scripts",
+  "scripts": {
+    "rollup:table-b": "node scripts/rollup-table-b.mjs",
+    "rollup:table-b:today": "node scripts/rollup-table-b.mjs --today",
+    "rollup:table-b:dry": "node scripts/rollup-table-b.mjs --dry-run",
+    "rollup:table-b:all": "node scripts/rollup-table-b.mjs --all"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
