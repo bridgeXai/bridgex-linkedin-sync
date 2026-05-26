@@ -6,8 +6,10 @@ Chrome 扩展（Manifest V3）：半自动将 LinkedIn reach out 同步到飞书
 
 | 文档 | 读者 | 内容 |
 |------|------|------|
-| [**SESSION-HANDOFF.md**](./SESSION-HANDOFF.md) | 开发 / **新 Cursor 会话** | **主文档**：架构、飞书表 ID、字段规则、排障、更新记录 |
-| [**DISTRIBUTION.md**](./DISTRIBUTION.md) | 管理员 / 同事 | 安装、zip 打包、Git、方案 B 定时任务 |
+| [**安装指南.md**](./安装指南.md) | **同事（首选）** | **保姆级**：下载、安装、配置、日常流程、排障 |
+| [**使用说明-快速参考.md**](./使用说明-快速参考.md) | 同事 | 日常操作速查卡 |
+| [**SESSION-HANDOFF.md**](./SESSION-HANDOFF.md) | 开发 / Cursor | 架构、飞书表 ID、字段规则、排障 |
+| [**DISTRIBUTION.md**](./DISTRIBUTION.md) | 管理员 | 打包、发版、方案 B 定时任务 |
 | [Plan.md](./Plan.md) | — | 已归档，指向上述文档 |
 | [archive/Plan-initial.md](./archive/Plan-initial.md) | — | 初版计划全文 |
 
@@ -24,18 +26,17 @@ Chrome 扩展（Manifest V3）：半自动将 LinkedIn reach out 同步到飞书
 
 详见 [**SESSION-HANDOFF.md §六.五 / §六.六 / §5.8 / §5.9**](./SESSION-HANDOFF.md)。
 
-## 快速开始（同事安装）
+## 快速开始（同事）
 
-> 完整步骤见 [**DISTRIBUTION.md §一**](./DISTRIBUTION.md#一给同事安装)。
+> **完整保姆级步骤 → [`安装指南.md`](./安装指南.md)**  
+> 日常速查 → [`使用说明-快速参考.md`](./使用说明-快速参考.md)
 
-**代码仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（公开，可直接克隆）
+**代码仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync
 
-1. **获取代码**：`git clone` 或向管理员要 zip（见 DISTRIBUTION.md）  
-2. **配置凭证**：复制 `lib/secrets.example.js` → `lib/secrets.js`（推荐向管理员索取已填好的文件）  
-3. **加载插件**：Chrome → `chrome://extensions/` → 开发者模式 → 加载已解压 → 选本目录  
-4. **选项页**：填写「操作者」「LinkedIn 账户」；确认 **`sent_at` 写入格式** 与飞书列类型一致  
-5. **试用**：LinkedIn 个人页打开 popup → 点动作按钮 → 检查飞书表 C 是否写入  
-6. **更新**：`git pull` 或覆盖 zip 后 → 扩展页 **重新加载**（不会自动更新）
+1. GitHub **Code → Download ZIP**，或 `git clone`
+2. 向管理员索取 **`lib/secrets.js`** 放进 `lib\` 目录
+3. Chrome → `chrome://extensions/` → 开发者模式 → 加载已解压
+4. 选项页填 **操作者** + **LinkedIn 账户** → 打开 LinkedIn 主页试同步
 
 收工可选（Node 18+）：
 
