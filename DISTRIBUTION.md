@@ -2,28 +2,113 @@
 
 > 功能与架构详见 [`SESSION-HANDOFF.md`](./SESSION-HANDOFF.md)。本文侧重**安装、打包、Git、方案 B 定时任务**。
 
+**代码仓库（私有）**：https://github.com/BridgeX-ai/bridgex-linkedin-sync
+
 ---
 
-## 一、给同事安装（无需 Git）
+## 一、给同事安装
 
-1. 向管理员索取 **`LinkedIn-Extension.zip`**（或拷贝整个文件夹）。
-2. 解压到本地，例如 `D:\Tools\LinkedIn-Extension\`。
-3. 目录内**直接可见** `manifest.json`、`popup.html`、`lib/`（不要多套一层文件夹）。
-4. 复制凭证文件：
+### 1.1 你需要准备什么
+
+| 项目 | 说明 |
+|------|------|
+| **Chrome 浏览器** | 桌面版，需能开「开发者模式」 |
+| **插件文件夹** | 见下方「方式 A / B」二选一 |
+| **`lib/secrets.js`** | 凭证文件，**向管理员索取**（或按模板自行填写） |
+| **飞书 Base 权限** | 管理员需把自建应用加到多维表格，授予**可编辑** |
+| **AdsPower + LinkedIn** | 日常触达用；插件只在 LinkedIn 个人页旁路记录 |
+
+> **两层身份（必配）**：「操作者」= 真人姓名；「LinkedIn 账户」= 当前人设代号（如 `BRGX001`）。两者不可混填。
+
+---
+
+### 1.2 获取插件代码（二选一）
+
+#### 方式 A：Git 克隆（推荐，方便以后更新）
+
+1. 联系管理员，把你的 GitHub 账号加入仓库 **Collaborator**（仓库为私有）。
+2. 克隆到本地固定目录，例如：
    ```powershell
-   copy lib\secrets.example.js lib\secrets.js
+   git clone https://github.com/BridgeX-ai/bridgex-linkedin-sync.git D:\Tools\bridgex-linkedin-sync
+   cd D:\Tools\bridgex-linkedin-sync
    ```
-   编辑 `lib/secrets.js` 填入飞书 App ID/Secret、Bitable Token、OpenRouter Key（或由管理员预填）。
-5. Chrome → `chrome://extensions/` → **开发者模式** → **加载已解压的扩展程序** → 选择该文件夹。
-6. 右键插件 → **选项**：
-   - **操作者**（真人姓名）
-   - **LinkedIn 账户**（如 `BRGX001`）
-   - 确认字段映射中 **时间字段 = `sent_at`**
-   - **`sent_at` 写入格式**：飞书列为「日期/日期时间」→ 选 **日期时间戳**；仍为「文本」→ 选 **日期文本**
-7. 代码或 zip 更新后 → 扩展页 **重新加载**。
-8. 排查抓取问题：选项页底部 **解析/同步记录**（看每次履历字数、是否报错）。
+3. 后续更新只需：
+   ```powershell
+   cd D:\Tools\bridgex-linkedin-sync
+   git pull
+   ```
+   然后在 `chrome://extensions/` 点插件的 **重新加载**。
 
-### 飞书表 C 列检查清单（首次部署）
+#### 方式 B：下载 zip（无需 Git）
+
+1. 向管理员索取 **`LinkedIn-Extension.zip`**，或从 GitHub **Releases** 下载最新包。
+2. 解压到本地，例如 `D:\Tools\bridgex-linkedin-sync\`。
+3. 解压后目录内**直接可见** `manifest.json`、`popup.html`、`lib/`（不要多套一层文件夹）。
+4. 后续更新：重新下载 zip **覆盖**原目录（见 §四），保留 `lib/secrets.js`。
+
+---
+
+### 1.3 配置凭证（首次必做）
+
+```powershell
+cd D:\Tools\bridgex-linkedin-sync   # 换成你的实际路径
+copy lib\secrets.example.js lib\secrets.js
+```
+
+- **推荐**：直接向管理员索取已填好的 `lib/secrets.js`（飞书 App、Bitable Token、OpenRouter Key）。
+- **自行填写**：用记事本编辑 `lib/secrets.js`，填入管理员提供的值。
+- **注意**：`lib/secrets.js` **不会**随 `git pull` 被覆盖，更新代码时无需重做（除非你主动删了它）。
+
+---
+
+### 1.4 加载 Chrome 插件
+
+1. 打开 Chrome，地址栏输入 `chrome://extensions/`。
+2. 右上角打开 **开发者模式**。
+3. 点击 **加载已解压的扩展程序**。
+4. 选择插件目录（含 `manifest.json` 的那一层）。
+5. 加载成功后，建议 **固定** 扩展图标到工具栏。
+
+> 未上架 Chrome 商店的插件不会自动更新；代码更新后必须手动 **重新加载**。
+
+---
+
+### 1.5 插件选项页（首次必做）
+
+右键扩展图标 → **选项**，填写：
+
+| 字段 | 示例 | 说明 |
+|------|------|------|
+| **操作者** | 李靖 | 写入表 C `operator_name` |
+| **LinkedIn 账户** | `BRGX001` | 写入表 C `account_id`，表 B 按此日汇总 |
+| **时间字段** | `sent_at` | 勿填 `reply_at` |
+| **`sent_at` 写入格式** | 见飞书列类型 | 列为「日期/日期时间」→ **日期时间戳**；仍为「文本」→ **日期文本** |
+
+Bitable App Token、表 C / 表 B ID 通常已有默认值；若管理员给了专用 Base，按说明覆盖即可。
+
+---
+
+### 1.6 验证安装是否成功
+
+1. 用 AdsPower 打开任意 **LinkedIn 个人主页**。
+2. 点击插件图标，popup 应自动显示：**姓名、职位、公司、地区、URL**。
+3. 点 **已发申请**（或任意动作按钮）试同步一条。
+4. 到飞书 **表 C** 确认新行；表 B 当日计数 +1（若表 B 未变，见 [`SESSION-HANDOFF.md` §十一](./SESSION-HANDOFF.md) 或跑 `rollup:table-b:today`）。
+5. 异常时：选项页底部 **解析/同步记录** 查看报错。
+
+---
+
+### 1.7 日常使用速查
+
+| 场景 | 操作 |
+|------|------|
+| 发连接 | 核对字段 → **已发申请** |
+| 发私信 | 粘贴消息全文 →（可选）AI 分类 → **已发消息** |
+| 对方接受连接 | 打开同一人主页 → **连接已接受** |
+| 收履历 | **履历整页截屏**（可多次，自动合并） |
+| 收工纠偏表 B | `npm run rollup:table-b:today`（需 Node 18+，可选） |
+
+### 1.8 飞书表 C 列检查清单（管理员首次部署）
 
 | 列名 | 类型 | 说明 |
 |------|------|------|
@@ -67,36 +152,69 @@ Compress-Archive -Path * -DestinationPath ..\LinkedIn-Extension-dist.zip -Force
 
 ---
 
-## 三、Git 仓库（团队开发）
+## 三、Git 仓库（管理员 / 开发）
+
+**仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（Private）
+
+### 管理员：邀请同事访问
+
+GitHub 仓库页 → **Settings** → **Collaborators** → **Add people** → 输入同事 GitHub 用户名或邮箱 → 权限 **Write**（只需拉代码选 Read 即可）。
+
+### 管理员：推送更新
 
 ```powershell
-Set-Location "D:\BridgeX\Network Framework\LinkedIn-Extension"
+cd "D:\BridgeX\Network Framework\LinkedIn-Extension"   # 或你的本地克隆路径
 
-git init          # 若尚未初始化
 git add .
 git status        # 确认 lib/secrets.js 未出现
-git commit -m "BridgeX LinkedIn Sync extension"
+git commit -m "描述本次变更"
+git push origin master
 ```
 
-新同事：
+可选：打 tag 并建 Release，方便非 Git 同事下载 zip：
 
 ```powershell
-git clone <repo-url>
-cd LinkedIn-Extension
-copy lib\secrets.example.js lib\secrets.js
-# 编辑 lib\secrets.js
+git tag v0.1.1
+git push origin v0.1.1
+# GitHub → Releases → Draft new release → 上传 LinkedIn-Extension-dist.zip
 ```
+
+### 新同事克隆
+
+见 **§1.2 方式 A**。
 
 ---
 
-## 四、版本更新通知（模板）
+## 四、版本更新（发给同事的通知模板）
 
-告知同事：
+复制以下内容到飞书群：
 
-1. 获取新 zip 或 `git pull`
-2. `chrome://extensions/` → **重新加载** 插件
-3. 若新增飞书列，对照 `SESSION-HANDOFF.md` §六 / §三 更新表结构
-4. （可选）Node 脚本：`npm run rollup:table-b:today` 做一次表 B 对齐
+---
+
+**BridgeX LinkedIn Sync 已更新至 v0.x.x**
+
+**Git 用户**
+
+```powershell
+cd D:\Tools\bridgex-linkedin-sync
+git pull
+```
+
+**zip 用户**
+
+1. 下载最新包（Release 或找管理员要 zip）
+2. **先备份** 目录里的 `lib\secrets.js`
+3. 解压覆盖原目录，再把 `secrets.js` 拷回去
+
+**所有人**
+
+1. Chrome → `chrome://extensions/` → 找到 **BridgeX LinkedIn Sync** → **重新加载**
+2. 若本次更新新增飞书列，对照 `SESSION-HANDOFF.md` 检查表 C 结构
+3. （可选）`npm run rollup:table-b:today` 对齐表 B
+
+变更说明：（在此填写）
+
+---
 
 ---
 

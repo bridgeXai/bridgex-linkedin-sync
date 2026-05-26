@@ -24,13 +24,18 @@ Chrome 扩展（Manifest V3）：半自动将 LinkedIn reach out 同步到飞书
 
 详见 [**SESSION-HANDOFF.md §六.五 / §六.六 / §5.8 / §5.9**](./SESSION-HANDOFF.md)。
 
-## 快速开始
+## 快速开始（同事安装）
 
-1. 复制 `lib/secrets.example.js` → `lib/secrets.js`，填入飞书与 OpenRouter 凭证  
-2. Chrome → `chrome://extensions/` → 开发者模式 → 加载已解压 → 选本目录  
-3. 插件 **选项**：填写「操作者」「LinkedIn 账户」；确认 **`sent_at` 写入格式** 与飞书列类型一致  
-4. 在 LinkedIn 个人页打开插件 → 履历截屏（可多次）+（若发私信）填消息 → 点动作按钮同步  
-5. 异常时：Popup / 设置页查看 **解析/同步记录**
+> 完整步骤见 [**DISTRIBUTION.md §一**](./DISTRIBUTION.md#一给同事安装)。
+
+**代码仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（私有，需管理员邀请）
+
+1. **获取代码**：`git clone` 或向管理员要 zip（见 DISTRIBUTION.md）  
+2. **配置凭证**：复制 `lib/secrets.example.js` → `lib/secrets.js`（推荐向管理员索取已填好的文件）  
+3. **加载插件**：Chrome → `chrome://extensions/` → 开发者模式 → 加载已解压 → 选本目录  
+4. **选项页**：填写「操作者」「LinkedIn 账户」；确认 **`sent_at` 写入格式** 与飞书列类型一致  
+5. **试用**：LinkedIn 个人页打开 popup → 点动作按钮 → 检查飞书表 C 是否写入  
+6. **更新**：`git pull` 或覆盖 zip 后 → 扩展页 **重新加载**（不会自动更新）
 
 收工可选（Node 18+）：
 
