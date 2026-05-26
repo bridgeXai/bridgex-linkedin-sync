@@ -23,7 +23,7 @@
 
 1. **私发 `lib/secrets.js`** 给每位同事（仓库不含凭证，**不要**打进任何 zip）
 2. 确认同事能打开飞书 [表 C](https://dcnzdjjl3pwl.feishu.cn/base/JaCgbEeGRagC7KsYJtNc2XLPnMN?table=tbl7pWyLK5f15UyO) / [表 B](https://dcnzdjjl3pwl.feishu.cn/base/JaCgbEeGRagC7KsYJtNc2XLPnMN?table=tblvmhRYACuRixCB)
-3. 首次部署对照下方 **§1.1 飞书表 C 列检查清单**
+3. 首次部署对照 **§1.1 表 C** 与 **§1.2 表 B** 列类型
 4. 代码有更新时 `git push`，并在飞书群通知（模板见 §三）
 
 ### 1.1 飞书表 C 列检查清单（管理员首次部署）
@@ -51,6 +51,21 @@
 **使用提示**：
 - 主页过长可**多次**点「履历整页截屏」，工作经历/教育背景会**合并**而非覆盖。
 - 点 **已发消息** 前必须在 popup 粘贴消息全文，否则会拦截、不写飞书。
+
+### 1.2 飞书表 B 列类型（管理员核对）
+
+插件 v0.1.2 按以下**实际列类型**写入（与 MVP 手册「全数字」可能不同）：
+
+| 列 | 应为 | 说明 |
+|----|------|------|
+| `connect_sent` | **数字** | 整数 |
+| `connect_accepted` | **文本** | 插件写 `"0"`、`"1"` 等 |
+| `messages_sent` | **文本** | 同上 |
+| `replies_received` | **文本** | 同上 |
+| `date` | 日期/日期时间 | |
+| `account_id` | 文本 | 与选项页 LinkedIn 账户一致 |
+
+改列类型后须通知开发更新 `lib/table-b-constants.js`。
 
 ---
 

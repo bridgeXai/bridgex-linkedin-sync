@@ -44,8 +44,11 @@ Chrome 扩展（Manifest V3）：半自动将 LinkedIn reach out 同步到飞书
 npm run rollup:table-b:today
 ```
 
-## 当前版本能力摘要（2026-05-25 晚间）
+## 当前版本能力摘要（v0.1.2 · 2026-05-26）
 
+- 分发：GitHub https://github.com/bridgeXai/bridgex-linkedin-sync；同事见 [`安装指南.md`](./安装指南.md)
+- 选项页：仅填**操作者** + **LinkedIn 账户**；飞书配置内置
+- 表 B：按飞书实际列类型写入（`connect_sent` 数字，其余三计数列文本）
 - 首屏提取：姓名、职位、公司、地区、URL  
 - 履历：**履历整页截屏** → `career_background` / `edu_background`；**多次截屏并集**  
 - 消息：粘贴 + AI 分类 → `message_sent` / `pain_angle` / `offer_angle`；**已发消息** 无正文**拦截同步**  

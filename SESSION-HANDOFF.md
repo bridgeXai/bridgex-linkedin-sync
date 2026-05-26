@@ -1,10 +1,22 @@
 # BridgeX LinkedIn Sync 插件 · 会话交接文档
 
 > **用途**：供新 Cursor 会话快速恢复上下文，继续开发或排查问题。  
-> **最后更新**：2026-05-25（晚间：sent_at 按日、ICP 单选白名单、解析记录、截屏并集、已发消息校验）  
-> **项目路径**：`LinkedIn-Extension/`  
-> **文档入口**：[`README.md`](./README.md) · [`DISTRIBUTION.md`](./DISTRIBUTION.md)  
+> **最后更新**：2026-05-26（GitHub 组织迁移、选项页精简、表 B 列类型修复 v0.1.2）  
+> **代码仓库**：https://github.com/bridgeXai/bridgex-linkedin-sync  
+> **文档入口**：[`README.md`](./README.md) · [`安装指南.md`](./安装指南.md) · [`DISTRIBUTION.md`](./DISTRIBUTION.md)  
 > **关联文档**：`LinkedIn-MVP-执行手册.md` §1.6（飞书三张表字段）、`personas/BRGX001-Jason-Park.md`（示例人设）、[`archive/Plan-initial.md`](./archive/Plan-initial.md)（初版计划归档）
+
+---
+
+## 更新记录（2026-05-26）
+
+| 类别 | 内容 |
+|------|------|
+| 分发 | 代码托管 **bridgeXai/bridgex-linkedin-sync**（公开）；**仅 GitHub 获取**，不再发解压分发包 |
+| 文档 | 新增 [`安装指南.md`](./安装指南.md)、[`使用说明-快速参考.md`](./使用说明-快速参考.md) |
+| 选项页 | 同事**只填**操作者 + LinkedIn 账户；飞书 Token / 表 ID / 字段映射内置 `secrets.js` |
+| 表 B 修复 | v0.1.2：`formatCounterForBitable()` 对齐飞书**实际列类型**（见 §三.1） |
+| 排障 | `TextFieldConvFail` 常见于表 B 计数列类型混用（§十一） |
 
 ---
 
@@ -73,10 +85,27 @@ Chrome Extension Manifest V3 插件：**半自动**记录 LinkedIn reach out 行
 
 | 表 | Table ID | 用途 | 链接示例 |
 |----|----------|------|----------|
+| **表 A** 账号台账 | `tbltImZY00qThh5n` | 一行 = 一个 LinkedIn 人设 | [Base 内打开](https://dcnzdjjl3pwl.feishu.cn/base/JaCgbEeGRagC7KsYJtNc2XLPnMN) |
 | **表 C** Reach out CRM | `tbl7pWyLK5f15UyO` | 一行 = 一条 reach out（插件主写入目标） | [表 C](https://dcnzdjjl3pwl.feishu.cn/base/JaCgbEeGRagC7KsYJtNc2XLPnMN?table=tbl7pWyLK5f15UyO) |
 | **表 B** 每日操作日志 | `tblvmhRYACuRixCB` | 一行 = 一个 LinkedIn 账户一天 | [表 B](https://dcnzdjjl3pwl.feishu.cn/base/JaCgbEeGRagC7KsYJtNc2XLPnMN?table=tblvmhRYACuRixCB) |
 
 > 早期曾误把表 B 的链接当作表 C；现已纠正。内置默认值见 `lib/secrets.js`。
+
+### 表 B 实际列类型（2026-05-26 API 核对，与 MVP 手册可能不同）
+
+**账号操作日志** 计数列插件写入规则见 `lib/table-b-constants.js` → `formatCounterForBitable()`：
+
+| 列 | 飞书实际类型 | 插件写入 |
+|----|-------------|----------|
+| `date` | 日期/日期时间 | 当天 0 点毫秒时间戳 |
+| `account_id` | 文本 | 选项页 LinkedIn 账户（自由填写） |
+| `connect_sent` | **数字** | 整数 |
+| `connect_accepted` | **文本** | 字符串 `"0"` / `"1"` / … |
+| `messages_sent` | **文本** | 字符串 |
+| `replies_received` | **文本** | 字符串 |
+| `action_type` | 多选 | `Connect` / `Message` 等 |
+
+> **勿**把四列计数都改成同一类型：若管理员在飞书改列类型，须同步改 `formatCounterForBitable()` 或通知开发。
 
 ### 表 B 与表 C 的关系
 
@@ -189,11 +218,9 @@ npm run rollup:table-b:today  # 仅今天
 
 ### 5.6 配置页（同事必填）
 
-- **操作者** + **LinkedIn 账户**
-- Bitable App Token、表 C / 表 B Table ID（默认可覆盖）
-- 字段名映射（默认见 §六；**时间字段 = `sent_at`**，勿填 `reply_at`）
-- **`sent_at` 写入格式**（见 §5.8）
-- 可选映射：`target_region`、`message_sent`、`career_background`、`edu_background` 等
+- **操作者**（真人姓名）+ **LinkedIn 账户**（自由填写，如 `BRGX001`）
+- 飞书 Bitable Token、表 C/B ID、字段映射、`sent_at` 格式等**已内置**（`lib/secrets.js` + `lib/config.js` 默认值），**同事无需填写**
+- 完整安装步骤 → [`安装指南.md`](./安装指南.md) §四 步骤 3
 
 ### 5.8 `sent_at` 写入（仅精确到日）
 
@@ -492,7 +519,8 @@ npm run rollup:table-b:today
 | ✅ | 连接已接受 → Connected + `connect_accepted` |
 | ✅ | 方案 B 全量 `rollup-table-b.mjs` |
 | ✅ | DOM fallback（`profile-extract-page.js`） |
-| ✅ | GitHub 分发说明（`DISTRIBUTION.md`、`安装指南.md`） |
+| ✅ | GitHub 分发（bridgeXai）、`安装指南.md`、选项页仅填身份 |
+| ✅ | 表 B 混合列类型写入（v0.1.2，`formatCounterForBitable`） |
 | ✅ | `Plan.md` 归档 |
 | ✅ | `pain_angle` / `offer_angle` 消息分类 + 单选白名单（`angle-fields.js`） |
 | ✅ | `reply_at` 飞书自动化问题结案 |
@@ -512,7 +540,7 @@ npm run rollup:table-b:today
 | 问题 | 处理 |
 |------|------|
 | Forbidden / 91403 | §七 文档级权限 |
-| 表 B 没更新 | 表 B 权限；选项页 `account_id`；或跑 `rollup:table-b:today` |
+| 表 B 没更新 | 见 §三.1 列类型；选项页 LinkedIn 账户；popup 若提示 `TextFieldConvFail` → §十一；或跑 `rollup:table-b:today` |
 | 地区为空 | 手填；或改进 `profile-extract-page.js` selector |
 | 履历截屏不完整 | 最多 18 张；先让 Experience/Education 进入页面再截；或划选补充 |
 | 草稿丢失 | 同 URL 重开 popup；勿在未同步前清缓存 |
@@ -522,7 +550,8 @@ npm run rollup:table-b:today
 | **Background 有，Pain/Offer 空** | **正常若未填消息**；见 **§六.五**；填消息 → AI 分类 → 再同步；核对飞书单选与 `angle-fields.js` |
 | **Background 空** | 重跑履历整页截屏；看预览与素材框；`resume-fields.js` 兜底 |
 | **Pain/Offer 有预览但飞书空** | 飞书单选选项与写入值不一致；改表选项或改 `angle-fields.js` |
-| **TextFieldConvFail** | `sent_at` 列类型与设置不一致（§5.8）；勿把整段履历映射到 `personalized_excerpt` 短文本列；见 `feishu.js` 错误提示 |
+| **表 C 已同步；表 B 未更新** | **设计如此**（表 C 优先）；常见为表 B 计数列类型不匹配 → §三.1；更新插件至 **v0.1.2+** 后重试或跑 `rollup:table-b:today` |
+| **TextFieldConvFail** | **表 C**：`sent_at` 列类型与内置格式不一致（§5.8）；`personalized_excerpt` 过长。**表 B**：计数列类型与 §三.1 不一致（v0.1.2 已按实际表修复） |
 | **ICP/角色有预览但飞书空** | 值不在 `segment-fields.js` 白名单；改飞书选项或改代码列表 |
 | **同步后履历变少** | 查 **解析/同步记录**：若解析时履历字数已很少 → 未截屏或 AI 未抽出；若字数多但飞书空 → 字段映射/列类型问题 |
 | **多次截屏仍不全** | 并集只合并 popup 内已有 + 本次结果；每次截屏后看预览字数；必要时多截几次再同步 |
@@ -535,8 +564,11 @@ npm run rollup:table-b:today
 我在做 BridgeX LinkedIn MVP 的 Chrome 插件，路径 LinkedIn-Extension/。
 请先读 README.md、SESSION-HANDOFF.md（尤其 §六.五 字段解析规则）和 LinkedIn-MVP-执行手册.md §1.6。
 
-当前状态摘要（2026-05-25 晚间）：
-- 半自动同步表 C（tbl7pWyLK5f15UyO），表 B（tblvmhRYACuRixCB）按 account_id + sent_at（按日）汇总。
+当前状态摘要（2026-05-26）：
+- 仓库：https://github.com/bridgeXai/bridgex-linkedin-sync（公开）；同事看 安装指南.md。
+- 选项页只填 operator_name + account_id；飞书配置内置 secrets.js。
+- 表 B 计数列：connect_sent=数字，其余三列=文本（§三.1）；v0.1.2 修复 TextFieldConvFail。
+- 半自动同步表 C（tbl7pWyLK5f15UyO），表 B（tblvmhRYACuRixCB）按 account_id + 日汇总。
 - AI：OpenRouter **qwen/qwen3-vl-32b-instruct**（换模型须用户确认）。
 - 履历 A：📸 截屏可多次，career/edu **并集**；消息 B：粘贴 + AI 分类；**已发消息** 无正文会拦截。
 - 单选白名单：angle-fields.js（pain/offer）、segment-fields.js（icp/role/cta/模板）。
