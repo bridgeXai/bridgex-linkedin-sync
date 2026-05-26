@@ -28,7 +28,7 @@ Chrome 扩展（Manifest V3）：半自动将 LinkedIn reach out 同步到飞书
 
 > 完整步骤见 [**DISTRIBUTION.md §一**](./DISTRIBUTION.md#一给同事安装)。
 
-**代码仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（私有，需管理员邀请）
+**代码仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（公开，可直接克隆）
 
 1. **获取代码**：`git clone` 或向管理员要 zip（见 DISTRIBUTION.md）  
 2. **配置凭证**：复制 `lib/secrets.example.js` → `lib/secrets.js`（推荐向管理员索取已填好的文件）  

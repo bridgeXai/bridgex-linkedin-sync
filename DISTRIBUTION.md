@@ -2,7 +2,7 @@
 
 > 功能与架构详见 [`SESSION-HANDOFF.md`](./SESSION-HANDOFF.md)。本文侧重**安装、打包、Git、方案 B 定时任务**。
 
-**代码仓库（私有）**：https://github.com/BridgeX-ai/bridgex-linkedin-sync
+**代码仓库（公开）**：https://github.com/BridgeX-ai/bridgex-linkedin-sync
 
 ---
 
@@ -26,13 +26,12 @@
 
 #### 方式 A：Git 克隆（推荐，方便以后更新）
 
-1. 联系管理员，把你的 GitHub 账号加入仓库 **Collaborator**（仓库为私有）。
-2. 克隆到本地固定目录，例如：
+1. 克隆到本地固定目录，例如：
    ```powershell
    git clone https://github.com/BridgeX-ai/bridgex-linkedin-sync.git D:\Tools\bridgex-linkedin-sync
    cd D:\Tools\bridgex-linkedin-sync
    ```
-3. 后续更新只需：
+2. 后续更新只需：
    ```powershell
    cd D:\Tools\bridgex-linkedin-sync
    git pull
@@ -154,11 +153,7 @@ Compress-Archive -Path * -DestinationPath ..\LinkedIn-Extension-dist.zip -Force
 
 ## 三、Git 仓库（管理员 / 开发）
 
-**仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（Private）
-
-### 管理员：邀请同事访问
-
-GitHub 仓库页 → **Settings** → **Collaborators** → **Add people** → 输入同事 GitHub 用户名或邮箱 → 权限 **Write**（只需拉代码选 Read 即可）。
+**仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（Public，任何人可克隆）
 
 ### 管理员：推送更新
 
