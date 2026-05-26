@@ -4,21 +4,27 @@
 > **同事安装请直接看 → [`安装指南.md`](./安装指南.md)**（保姆级步骤）。  
 > 日常速查 → [`使用说明-快速参考.md`](./使用说明-快速参考.md)。
 
-**代码仓库（公开）**：https://github.com/BridgeX-ai/bridgex-linkedin-sync
+**代码仓库（公开，唯一分发渠道）**：https://github.com/BridgeX-ai/bridgex-linkedin-sync
+
+> **分发策略（2026-05-26 起）**  
+> - ✅ 同事自行从 GitHub 获取代码（`git clone` 或网页 Download ZIP）  
+> - ✅ 管理员**仅私发** `lib/secrets.js`  
+> - ❌ **不再**手工打包 zip、飞书发「解压分发包」
 
 ---
 
 ## 一、给同事安装
 
-**请把 [`安装指南.md`](./安装指南.md) 发给同事**，或让他们打开 GitHub 仓库直接阅读。
+**请把 GitHub 仓库链接 + [`安装指南.md`](./安装指南.md) 发给同事**。
 
-文档包含：插件说明、GitHub 下载 / Git 克隆、加载 Chrome、填身份、验证安装、日常流程、常见问题、版本更新。
+文档包含：从 GitHub 获取代码、加载 Chrome、填身份、验证安装、日常流程、常见问题、版本更新。
 
 管理员额外需做：
 
-1. **私发 `lib/secrets.js`** 给每位同事（仓库不含凭证）
+1. **私发 `lib/secrets.js`** 给每位同事（仓库不含凭证，**不要**打进任何 zip）
 2. 确认同事能打开飞书 [表 C](https://dcnzdjjl3pwl.feishu.cn/base/JaCgbEeGRagC7KsYJtNc2XLPnMN?table=tbl7pWyLK5f15UyO) / [表 B](https://dcnzdjjl3pwl.feishu.cn/base/JaCgbEeGRagC7KsYJtNc2XLPnMN?table=tblvmhRYACuRixCB)
 3. 首次部署对照下方 **§1.1 飞书表 C 列检查清单**
+4. 代码有更新时 `git push`，并在飞书群通知（模板见 §三）
 
 ### 1.1 飞书表 C 列检查清单（管理员首次部署）
 
@@ -48,27 +54,7 @@
 
 ---
 
-## 二、管理员打包 zip
-
-```powershell
-Set-Location "D:\BridgeX\Network Framework\LinkedIn-Extension"
-
-# 确认 lib\secrets.js 已按分发策略处理（勿把生产 Key 打进公开 zip）
-
-Compress-Archive -Path * -DestinationPath ..\LinkedIn-Extension-dist.zip -Force
-```
-
-**建议包含**：源码、`icons/`、`lib/secrets.example.js`、`README.md`、`SESSION-HANDOFF.md`、`DISTRIBUTION.md`、`package.json`、`scripts/`。
-
-**勿包含**（`.gitignore`）：`lib/secrets.js`（除非点对点安全发放）。
-
----
-
-## 三、Git 仓库（管理员 / 开发）
-
-**仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（Public，任何人可克隆）
-
-### 管理员：推送更新
+## 二、管理员发版流程
 
 ```powershell
 cd "D:\BridgeX\Network Framework\LinkedIn-Extension"   # 或你的本地克隆路径
@@ -79,50 +65,53 @@ git commit -m "描述本次变更"
 git push origin master
 ```
 
-可选：打 tag 并建 Release，方便非 Git 同事下载 zip：
+可选：打 tag 标记版本（同事可在 GitHub 看 Releases / 对比 tag）：
 
 ```powershell
-git tag v0.1.1
-git push origin v0.1.1
-# GitHub → Releases → Draft new release → 上传 LinkedIn-Extension-dist.zip
+git tag v0.1.2
+git push origin v0.1.2
 ```
 
-### 新同事克隆
-
-见 **§1.2 方式 A**。
+发版后在飞书群通知同事（模板见 §三）。**不需要**再手工打 zip 分发。
 
 ---
 
-## 四、版本更新（发给同事的通知模板）
+## 三、Git 仓库
+
+**仓库**：https://github.com/BridgeX-ai/bridgex-linkedin-sync（Public）
+
+新同事安装见 [`安装指南.md`](./安装指南.md) §三。
+
+---
+
+## 四、版本更新（飞书群通知模板）
 
 复制以下内容到飞书群：
 
 ---
 
-**BridgeX LinkedIn Sync 已更新至 v0.x.x**
+**BridgeX LinkedIn Sync 已更新**
 
-**Git 用户**
+仓库：https://github.com/BridgeX-ai/bridgex-linkedin-sync
+
+**会 Git 的同事**
 
 ```powershell
 cd D:\Tools\bridgex-linkedin-sync
 git pull
 ```
 
-**zip 用户**
+**不会 Git 的同事**
 
-1. 下载最新包（Release 或找管理员要 zip）
-2. **先备份** 目录里的 `lib\secrets.js`
-3. 解压覆盖原目录，再把 `secrets.js` 拷回去
+GitHub 打开上面链接 → **Code → Download ZIP** → 备份 `lib\secrets.js` → 解压覆盖 → 拷回 `secrets.js`
 
 **所有人**
 
-1. Chrome → `chrome://extensions/` → 找到 **BridgeX LinkedIn Sync** → **重新加载**
+1. Chrome → `chrome://extensions/` → BridgeX → **重新加载**
 2. 若本次更新新增飞书列，对照 `SESSION-HANDOFF.md` 检查表 C 结构
 3. （可选）`npm run rollup:table-b:today` 对齐表 B
 
 变更说明：（在此填写）
-
----
 
 ---
 

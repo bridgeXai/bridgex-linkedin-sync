@@ -492,7 +492,7 @@ npm run rollup:table-b:today
 | ✅ | 连接已接受 → Connected + `connect_accepted` |
 | ✅ | 方案 B 全量 `rollup-table-b.mjs` |
 | ✅ | DOM fallback（`profile-extract-page.js`） |
-| ✅ | Git / zip 说明（`DISTRIBUTION.md`） |
+| ✅ | GitHub 分发说明（`DISTRIBUTION.md`、`安装指南.md`） |
 | ✅ | `Plan.md` 归档 |
 | ✅ | `pain_angle` / `offer_angle` 消息分类 + 单选白名单（`angle-fields.js`） |
 | ✅ | `reply_at` 飞书自动化问题结案 |
