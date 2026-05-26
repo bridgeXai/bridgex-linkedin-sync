@@ -36,7 +36,7 @@ Chrome 扩展（Manifest V3）：半自动将 LinkedIn reach out 同步到飞书
 1. `git clone https://github.com/BridgeX-ai/bridgex-linkedin-sync.git D:\Tools\bridgex-linkedin-sync`
 2. 向管理员私聊索取 **`lib\secrets.js`** 放进 `lib\` 目录
 3. Chrome → `chrome://extensions/` → 开发者模式 → 加载已解压
-4. 选项页填 **操作者** + **LinkedIn 账户** → 打开 LinkedIn 主页试同步
+4. 选项页只填 **操作者** + **LinkedIn 账户**（自由填写）→ 打开 LinkedIn 主页试同步
 
 收工可选（Node 18+）：
 

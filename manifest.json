@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "BridgeX LinkedIn Sync",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "从当前 LinkedIn 标签页读取姓名与链接，一键同步到飞书多维表格。",
   "permissions": ["activeTab", "storage", "contextMenus", "scripting"],
   "host_permissions": ["https://open.feishu.cn/*", "https://openrouter.ai/*", "<all_urls>"],

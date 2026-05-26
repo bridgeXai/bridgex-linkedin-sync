@@ -9,153 +9,41 @@
   <body>
     <main class="page">
       <header>
-        <h1>飞书多维表格配置</h1>
-        <p>飞书应用凭证与 AI Key 已内置。请分别填写「谁在操作」和「用的是哪个 LinkedIn 账户」。</p>
+        <h1>个人设置</h1>
+        <p>飞书表格与字段映射已内置，无需填写。请填写你在电脑前操作的身份，以及当前浏览器使用的 LinkedIn 账户代号。</p>
       </header>
 
       <form id="config-form">
         <section>
-          <h2>多维表格</h2>
+          <h2>操作身份</h2>
           <label>
-            Bitable App Token
-            <input id="app-token" name="appToken" type="text" autocomplete="off" required />
+            操作者（你的真实姓名）
+            <input
+              id="operator-name"
+              name="operator"
+              type="text"
+              autocomplete="name"
+              placeholder="例如：李靖"
+              required
+            />
           </label>
           <label>
-            表 C · Table ID
-            <input id="table-id" name="tableId" type="text" autocomplete="off" required />
+            LinkedIn 账户（当前登录的人设代号）
+            <input
+              id="account-id"
+              name="accountId"
+              type="text"
+              autocomplete="off"
+              placeholder="例如：BRGX001、MVP-01、Jason-Park-01"
+              required
+            />
+            <span class="field-hint">自由填写，与 AdsPower 人设一致即可；换账户操作时记得修改</span>
           </label>
-          <label>
-            表 B · Table ID（每日统计，可选覆盖）
-            <input id="table-b-id" name="tableBId" type="text" autocomplete="off" placeholder="默认已内置" />
-          </label>
-        </section>
-
-        <section>
-          <h2>操作身份（两层）</h2>
-          <label>
-            操作者（真人同事）
-            <input id="operator-name" name="operator" type="text" autocomplete="off" placeholder="例如：李靖" list="operator-list" required />
-            <datalist id="operator-list">
-              <option value="李靖"></option>
-              <option value="朱婧雯"></option>
-              <option value="李妙菲"></option>
-            </datalist>
-          </label>
-          <label>
-            LinkedIn 账户（虚拟人设 / AdsPower）
-            <input id="account-id" name="accountId" type="text" autocomplete="off" placeholder="例如：BRGX001 或 MVP-01" list="account-list" required />
-            <datalist id="account-list">
-              <option value="BRGX001"></option>
-              <option value="MVP-01"></option>
-            </datalist>
-            <span class="field-hint">写入表 C/B 的 account_id；表 B 按此账户汇总</span>
-          </label>
-        </section>
-
-        <section>
-          <h2>字段名（与飞书表头一致）</h2>
-          <div class="field-grid">
-            <label>
-              姓名字段
-              <input id="field-name" type="text" />
-            </label>
-            <label>
-              链接字段
-              <input id="field-url" type="text" />
-            </label>
-            <label>
-              动作字段
-              <input id="field-action" type="text" />
-            </label>
-            <label>
-              时间字段
-              <input id="field-time" type="text" />
-            </label>
-            <label>
-              sent_at 写入格式
-              <select id="time-field-format">
-                <option value="date_ms">日期时间戳（当天 0 点，飞书「日期」/「日期时间」列）</option>
-                <option value="date_text">日期文本（如 2026-05-25，飞书「文本」列）</option>
-              </select>
-            </label>
-            <label>
-              备注字段
-              <input id="field-memo" type="text" />
-            </label>
-            <label>
-              账户字段（account_id）
-              <input id="field-account-id" type="text" />
-            </label>
-            <label>
-              操作者字段（operator_name）
-              <input id="field-operator-name" type="text" />
-            </label>
-            <label>
-              公司字段
-              <input id="field-company" type="text" />
-            </label>
-            <label>
-              头衔/职位字段
-              <input id="field-title" type="text" />
-            </label>
-            <label>
-              地区字段
-              <input id="field-region" type="text" placeholder="target_region" />
-            </label>
-            <label>
-              联系邮箱字段
-              <input id="field-contact-email" type="text" placeholder="target_contact_email" />
-            </label>
-            <label>
-              联系电话字段
-              <input id="field-contact-phone" type="text" placeholder="target_contact_phone" />
-            </label>
-            <label>
-              ICP 分组字段
-              <input id="field-icp-segment" type="text" />
-            </label>
-            <label>
-              角色分组字段
-              <input id="field-role-segment" type="text" />
-            </label>
-            <label>
-              工作经历字段
-              <input id="field-career-background" type="text" placeholder="career_background" />
-            </label>
-            <label>
-              教育背景字段
-              <input id="field-edu-background" type="text" placeholder="edu_background" />
-            </label>
-            <label>
-              痛点角度字段
-              <input id="field-pain-angle" type="text" />
-            </label>
-            <label>
-              Offer 角度字段
-              <input id="field-offer-angle" type="text" />
-            </label>
-            <label>
-              CTA 类型字段
-              <input id="field-cta-type" type="text" />
-            </label>
-            <label>
-              话术模板字段
-              <input id="field-message-template-id" type="text" />
-            </label>
-            <label>
-              个性化摘录字段
-              <input id="field-personalized-excerpt" type="text" />
-            </label>
-            <label>
-              发出消息字段（长文本，需在表 C 新建列）
-              <input id="field-message-sent" type="text" placeholder="message_sent" />
-            </label>
-          </div>
         </section>
 
         <div class="actions">
-          <button type="submit" class="btn primary">保存配置</button>
-          <button type="button" id="test-btn" class="btn">测试连接</button>
+          <button type="submit" class="btn primary">保存</button>
+          <button type="button" id="test-btn" class="btn">测试飞书连接</button>
         </div>
         <p id="status" class="status" role="status" aria-live="polite"></p>
       </form>
